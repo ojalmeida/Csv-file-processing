@@ -1,6 +1,7 @@
 package application;
 
-import entities.Product;
+import model.entities.Product;
+import model.exceptions.ProcessException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -34,14 +35,13 @@ public class Program {
 
                     ArrayList<String> lines = new ArrayList<>(); // Read all the lines and save it on an Array
                     String line = reader.readLine();
-                    System.out.printf("%d line(s) processed: %n", files.length - 1);
                     while (line != null) {
-                        for (int i=1; i <=files.length - 1; i++) {
-                            System.out.printf("Line (%d) - %s%n", i, line);
+                        lines.add(line);
+                        System.out.printf("Line (%s) - %s%n", lines.size(), line);
+                        line = reader.readLine();
 
-                            lines.add(line);
-                            line = reader.readLine();
-                        }
+
+
                     }
                     for (String s : lines) { /// reads, splits, writes each line on the output file
 
@@ -64,8 +64,9 @@ public class Program {
                     }
                 }
             }
-        } catch (IOException | NullPointerException e) {
-            e.getMessage();
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            throw new ProcessException("An error has occurred");
+
         }
     }
 }
